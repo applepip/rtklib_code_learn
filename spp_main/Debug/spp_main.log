@@ -1,0 +1,16 @@
+﻿  spp_example.cpp
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (thesis.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+thesis.lib(ephemeris.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(ephemeris.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(ionex.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(ionex.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(pntpos.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(pntpos.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(preceph.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(preceph.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(qzslex.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(qzslex.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rinex.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rinex.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rtcm.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rtcm.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rtcm2.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rtcm2.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rtcm3.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rtcm3.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rtcm3e.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rtcm3e.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(rtkcmn.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(rtkcmn.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+thesis.lib(sbas.obj) : warning LNK4099: PDB 'thesis.pdb' was not found with 'thesis.lib(sbas.obj)' or at 'E:\dev\rtklib\thesis\Debug\thesis.pdb'; linking object as if no debug info
+  spp_main.vcxproj -> E:\dev\rtklib\thesis\Debug\spp_main.exe
+  spp_main.vcxproj -> E:\dev\rtklib\thesis\Debug\spp_main.pdb (Full PDB)

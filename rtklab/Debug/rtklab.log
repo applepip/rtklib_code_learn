@@ -1,0 +1,95 @@
+﻿  tle.c
+  tides.c
+  streamsvr.c
+  stream.c
+e:\dev\rtklib\rtklab\src\stream.c(385): warning C4133: 'function': incompatible types - from 'char [128]' to 'LPCWSTR'
+e:\dev\rtklib\rtklab\src\stream.c(400): warning C4133: 'function': incompatible types - from 'char [64]' to 'LPCWSTR'
+e:\dev\rtklib\rtklab\src\stream.c(775): warning C4101: 'rs': unreferenced local variable
+  solution.c
+  sbas.c
+  rtksvr.c
+  rtkpos.c
+  rtkcmn.c
+e:\dev\rtklib\rtklab\src\rtkcmn.c(3115): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'WCHAR *'
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3115): note: consider using '%ls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3115): note: consider using '%lls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3115): note: consider using '%Ls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3115): note: consider using '%ws' in the format string
+e:\dev\rtklib\rtklab\src\rtkcmn.c(3118): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'WCHAR *'
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3118): note: consider using '%ls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3118): note: consider using '%lls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3118): note: consider using '%Ls' in the format string
+  e:\dev\rtklib\rtklab\src\rtkcmn.c(3118): note: consider using '%ws' in the format string
+e:\dev\rtklib\rtklab\src\rtkcmn.c(3178): warning C4133: 'function': incompatible types - from 'char [1024]' to 'LPCWSTR'
+  rtcm3e.c
+  rtcm3.c
+  rtcm2.c
+  rtcm.c
+  rnx2rtkp.c
+  rinex.c
+e:\dev\rtklib\rtklab\src\rinex.c(218): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
+  ublox.c
+  tersus.c
+  ss2.c
+  skytraq.c
+e:\dev\rtklib\rtklab\src\rcv\skytraq.c(197): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\skytraq.c(319): warning C4244: '=': conversion from 'unsigned short' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\skytraq.c(326): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  septentrio.c
+e:\dev\rtklib\rtklab\src\rcv\septentrio.c(369): warning C4244: '=': conversion from 'int16_t' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\septentrio.c(406): warning C4244: '=': conversion from 'int16_t' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\septentrio.c(414): warning C4244: '=': conversion from 'uint16_t' to 'unsigned char', possible loss of data
+  Generating Code...
+  Compiling...
+  rt17.c
+e:\dev\rtklib\rtklab\src\rcv\rt17.c(1781): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\rt17.c(1794): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\rt17.c(1804): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\rt17.c(1830): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  rcvlex.c
+  nvs.c
+e:\dev\rtklib\rtklab\src\rcv\nvs.c(105): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\nvs.c(267): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  novatel.c
+  javad.c
+  gw10.c
+  crescent.c
+  cmr.c
+e:\dev\rtklib\rtklab\src\rcv\cmr.c(2439): warning C4244: '=': conversion from 'double' to 'time_t', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\cmr.c(2556): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\cmr.c(2557): warning C4244: '=': conversion from 'double' to 'unsigned char', possible loss of data
+  binex.c
+e:\dev\rtklib\rtklab\src\rcv\binex.c(1095): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\dev\rtklib\rtklab\src\rcv\binex.c(1120): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  rcvraw.c
+  qzslex.c
+  preceph.c
+  ppp_corr.c
+  ppp_ar.c
+  ppp.c
+  postpos.c
+  pntpos.c
+  options.c
+  lambda.c
+  ionex.c
+  Generating Code...
+  Compiling...
+  gis.c
+e:\dev\rtklib\rtklab\src\gis.c(312): warning C4101: 'q': unreferenced local variable
+  geoid.c
+  ephemeris.c
+  download.c
+e:\dev\rtklib\rtklab\src\download.c(130): warning C4133: 'function': incompatible types - from 'const char *' to 'LPCWSTR'
+e:\dev\rtklib\rtklab\src\download.c(284): warning C4133: 'function': incompatible types - from 'char [1024]' to 'LPCWSTR'
+e:\dev\rtklib\rtklab\src\download.c(290): warning C4133: 'function': incompatible types - from 'const char *' to 'LPCWSTR'
+e:\dev\rtklib\rtklab\src\download.c(320): warning C4101: 'stat': unreferenced local variable
+e:\dev\rtklib\rtklab\src\download.c(503): warning C4101: 'remot_p': unreferenced local variable
+e:\dev\rtklib\rtklab\src\download.c(774): warning C4101: 'tow': unreferenced local variable
+  datum.c
+  convrnx.c
+  convkml.c
+  convgpx.c
+  Generating Code...
+     Creating library E:\dev\rtklib\thesis\Debug\rtklab.lib and object E:\dev\rtklib\thesis\Debug\rtklab.exp
+  rtklab.vcxproj -> E:\dev\rtklib\thesis\Debug\rtklab.dll
+  rtklab.vcxproj -> E:\dev\rtklib\thesis\Debug\rtklab.pdb (Full PDB)
