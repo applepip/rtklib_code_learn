@@ -747,6 +747,7 @@ extern int satpos(gtime_t time, gtime_t teph, int sat, int ephopt,
 *          any pseudorange and broadcast ephemeris are always needed to get
 *          signal transmission time
 * 批注：按照所观测到的卫星顺序计算出每颗卫星的位置、速度、{钟差、频漂}
+*       返回值rs是卫星的位置速度数组，返回值dts是卫星的钟差和钟漂
 *-----------------------------------------------------------------------------*/
 extern void satposs(gtime_t teph, const obsd_t *obs, int n, const nav_t *nav,
                     int ephopt, double *rs, double *dts, double *var, int *svh)

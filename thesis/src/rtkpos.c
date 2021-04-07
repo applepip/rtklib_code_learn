@@ -439,7 +439,7 @@ static void initx(rtk_t *rtk, double xi, double var, int i)
         rtk->P[i+j*rtk->nx]=rtk->P[j+i*rtk->nx]=i==j?var:0.0;
     }
 }
-/* select common satellites between rover and reference station --------------*/
+/* select common satellites between rover and reference station 选择基准站与移动站的共视星--------------*/
 static int selsat(const obsd_t *obs, double *azel, int nu, int nr,
                   const prcopt_t *opt, int *sat, int *iu, int *ir)
 {
@@ -1099,7 +1099,9 @@ static int test_sys(int sys, int m)
     }
     return 0;
 }
-/* double-differenced phase/code residuals -----------------------------------*/
+/* double-differenced phase/code residuals -----------------------------------
+   重新计算双差
+*/
 static int ddres(rtk_t *rtk, const nav_t *nav, double dt, const double *x,
                  const double *P, const int *sat, double *y, double *e,
                  double *azel, const int *iu, const int *ir, int ns, double *v,
@@ -1438,7 +1440,9 @@ static void holdamb(rtk_t *rtk, const double *xa)
     }
     free(v); free(H);
 }
-/* resolve integer ambiguity by LAMBDA ---------------------------------------*/
+/* resolve integer ambiguity by LAMBDA ---------------------------------------
+   使用LAMBDA算法计算固定解
+*/
 static int resamb_LAMBDA(rtk_t *rtk, double *bias, double *xa)
 {
     prcopt_t *opt=&rtk->opt;
@@ -1570,7 +1574,14 @@ static int valpos(rtk_t *rtk, const double *v, const double *R, const int *vflg,
 #endif
     return stat;
 }
-/* relative positioning ------------------------------------------------------*/
+/* relative positioning ------------------------------------------------------
+   RTK核心函数，包括浮点解的EKF和固定模糊度的lambda算法
+   *  args：    rtk    IO    gps solution structure
+   *            obs    I     satellite observations
+   *            nu     I     # of user observation（rover）
+   *            nr     I     # of user observation（base）
+   *            nav    I     satellite navigation data
+*/
 static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
                   const nav_t *nav)
 {
@@ -1594,10 +1605,17 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
         for (j=0;j<NFREQ;j++) rtk->ssat[i].vsat[j]=0;
         for (j=1;j<NFREQ;j++) rtk->ssat[i].snr [j]=0;
     }
-    /* satellite positions/clocks */
+    /* satellite positions/clocks 
+	  计算卫星的位置速度
+	*/
     satposs(time,obs,n,nav,opt->sateph,rs,dts,var,svh);
     
-    /* undifferenced residuals for base station */
+    /* undifferenced residuals for base station
+	   EKF算法计算从无差观测值开始
+        返回值y+nu*nf*2是基准站的无差观测向量
+		返回值e+nu*3是基准站的视线向量
+		返回值azel+nu*2是基准站的方向角向量和仰角向量
+	*/
     if (!zdres(1,obs+nu,nr,rs+nu*6,dts+nu*2,var+nu,svh+nu,nav,rtk->rb,opt,1,
                y+nu*nf*2,e+nu*3,azel+nu*2)) {
         errmsg(rtk,"initial base station position error\n");
@@ -1609,14 +1627,19 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
     if (opt->intpref) {
         dt=intpres(time,obs+nu,nr,nav,rtk,y+nu*nf*2);
     }
-    /* select common satellites between rover and base-station */
+    /* select common satellites between rover and base-station 
+	  选择基准站与移动站的共视星
+	  共视星是基准站和移动站同时“看到”的卫星，只有基准站或移动站单独能看到的卫星不参与高精度定位
+	*/
     if ((ns=selsat(obs,azel,nu,nr,opt,sat,iu,ir))<=0) {
         errmsg(rtk,"no common satellite\n");
         
         free(rs); free(dts); free(var); free(y); free(e); free(azel);
         return 0;
     }
-    /* temporal update of states */
+    /* temporal update of states
+	   卡尔曼滤波的时间更新（了解载波相位差分定位）
+	*/
     udstate(rtk,obs,sat,iu,ir,ns,nav);
     
     trace(4,"x(0)="); tracemat(4,rtk->x,1,NR(opt),13,4);
@@ -1631,13 +1654,19 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
     niter=opt->niter+(opt->mode==PMODE_MOVEB&&opt->baseline[0]>0.0?2:0);
     
     for (i=0;i<niter;i++) {
-        /* undifferenced residuals for rover */
+        /* undifferenced residuals for rover
+		   计算移动站的无差观测
+		   站点坐标使用xp，这个是kalman滤波时间更新中得到的新坐标
+		   所有输出，如y，e，azel，起始存储位置为0，而上边的基准站无差观测时为nu*size
+		*/
         if (!zdres(0,obs,nu,rs,dts,var,svh,nav,xp,opt,0,y,e,azel)) {
             errmsg(rtk,"rover initial position error\n");
             stat=SOLQ_NONE;
             break;
         }
-        /* double-differenced residuals and partial derivatives */
+        /* double-differenced residuals and partial derivatives
+		   双差观测，v、H、R都是kalman滤波量测所需
+		*/
         if ((nv=ddres(rtk,nav,dt,xp,Pp,sat,y,e,azel,iu,ir,ns,v,H,R,vflg))<1) {
             errmsg(rtk,"no double-differenced residual\n");
             stat=SOLQ_NONE;
@@ -1645,6 +1674,7 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
         }
         /* kalman filter measurement update */
         matcpy(Pp,rtk->P,rtk->nx,rtk->nx);
+		/* kalman滤波的量测更新，完成浮点解 */
         if ((info=filter(xp,Pp,H,v,R,rtk->nx,nv))) {
             errmsg(rtk,"filter error (info=%d)\n",info);
             stat=SOLQ_NONE;
@@ -1652,6 +1682,8 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
         }
         trace(4,"x(%d)=",i+1); tracemat(4,xp,1,NR(opt),13,4);
     }
+
+	
     if (stat!=SOLQ_NONE&&zdres(0,obs,nu,rs,dts,var,svh,nav,xp,opt,0,y,e,azel)) {
         
         /* post-fit residuals for float solution */
@@ -1691,7 +1723,10 @@ static int relpos(rtk_t *rtk, const obsd_t *obs, int nu, int nr,
             stat=SOLQ_FIX;
         }
     }
-    /* resolve integer ambiguity by LAMBDA */
+    /* resolve integer ambiguity by LAMBDA
+	   单差整周模糊度固定，只有固定了模糊度，才能得到固定解，也就是真正意义上的高精度解
+	   单差整周模糊度固定通过lambda算法计算，计算后rtk->xa就是固定解
+	*/
     else if (stat!=SOLQ_NONE&&resamb_LAMBDA(rtk,bias,xa)>1) {
         
         if (zdres(0,obs,nu,rs,dts,var,svh,nav,xa,opt,0,y,e,azel)) {
@@ -1900,7 +1935,9 @@ extern int rtkpos(rtk_t *rtk, const obsd_t *obs, int n, const nav_t *nav)
     
     time=rtk->sol.time; /* previous epoch */
     
-    /* rover position by single point positioning */
+    /* rover position by single point positioning 
+	   使用pntpos计算概略位置坐标
+	*/
     if (!pntpos(obs,nu,nav,&rtk->opt,&rtk->sol,NULL,rtk->ssat,msg)) {
         errmsg(rtk,"point pos error (%s)\n",msg);
         
@@ -1959,7 +1996,10 @@ extern int rtkpos(rtk_t *rtk, const obsd_t *obs, int n, const nav_t *nav)
             return 1;
         }
     }
-    /* relative potitioning */
+    /* relative potitioning
+	1. 通过relpos中的satposs计算卫星的位置速度
+	2. 通过relpos中的selsat选择基准站与移动站的共视星
+	*/
     relpos(rtk,obs,nu,nr,nav);
     outsolstat(rtk);
     
